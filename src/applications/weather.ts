@@ -76,7 +76,7 @@ export class WeatherApplication extends BaseApplication {
             {
                 text: `${weatherData.humidity}%`,
                 color: "#FFFFFF",
-                icon: "weather"
+                icon: "humidity"
             }
         );
     }
