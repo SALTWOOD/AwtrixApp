@@ -21,7 +21,15 @@ for (const app of apps) {
 }
 
 for (const app of apps) {
-    jobs.push(new cron.CronJob(app.interval, app.tick.bind(app), null, true, process.env.TZ || 'UTC'));
+    jobs.push(cron.CronJob.from({
+        cronTime: app.interval,
+        onTick: async () => {
+            await app.tick()
+            console.log(`Ticked application: ${app.constructor.name}`);
+        },
+        start: true,
+        timeZone: process.env.TZ || 'UTC'
+    }));
     console.log(`Scheduled application: ${app.constructor.name} with interval "${app.interval}"`);
 }
 
