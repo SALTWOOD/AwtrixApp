@@ -24,7 +24,7 @@ export class BilibiliApplication extends BaseApplication {
         const data = response.body as any;
         const follower = data.data.follower;
 
-        this.awtrix.createCustomApp(
+        await this.awtrix.createCustomApp(
             "bilibili",
             {
                 text: follower.toString(),
