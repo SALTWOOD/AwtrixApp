@@ -1,6 +1,6 @@
 import cron from 'cron';
 import { Awtrix } from './awtrix.js';
-import { BilibiliApplication } from './applications/bilibili.js';
+import { BaseApplication } from './applications/base.js';
 
 async function stop() {
     console.log('Stopping applications...');
@@ -12,11 +12,7 @@ async function stop() {
 
 const awtrix = new Awtrix('192.168.1.141');
 
-const apps = [
-    new BilibiliApplication(awtrix, {
-        uid: 521343512,
-        interval: 300
-    })
+const apps: BaseApplication[] = [
 ];
 
 const jobs = [];
