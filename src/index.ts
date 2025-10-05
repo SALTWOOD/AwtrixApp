@@ -44,6 +44,7 @@ await new Promise<void>((resolve) => {
             console.log(`Stopped application: ${app.constructor.name}`);
         }
         resolve();
+        process.exit(0);
     }
 
     process.on('SIGINT', stop);
