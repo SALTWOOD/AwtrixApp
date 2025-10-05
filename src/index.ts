@@ -31,7 +31,7 @@ function getApps() {
 
 dotenv.config();
 
-const awtrix = new Awtrix('192.168.1.141');
+const awtrix = new Awtrix(env.get('AWTRIX_IP').required().asString());
 const apps: BaseApplication[] = getApps();
 const jobs = [];
 
