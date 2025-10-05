@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node --enable-source-maps index.js",
+    "start": "node --enable-source-maps dist/index.js",
     "build": "rimraf dist && tsc"
   },
   "dependencies": {
