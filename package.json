@@ -19,6 +19,7 @@
     "env-var": "^7.5.0",
     "got": "^14.4.9",
     "rimraf": "^6.0.1",
+    "systeminformation": "^5.27.11",
     "typescript": "^5.9.3"
   }
 }

@@ -8,13 +8,17 @@ import { BaseApplication } from './applications/base.js';
 import { BilibiliApplication } from './applications/bilibili.js';
 import { BitcoinApplication } from './applications/bitcoin.js';
 import { WeatherApplication } from './applications/weather.js';
-import got from 'got';
+import { ServerApplication } from './applications/server.js';
+
+import * as readline from 'readline';
+import vm from 'vm';
 
 function getApps() {
     const dict = {
         bilibili: BilibiliApplication,
         bitcoin: BitcoinApplication,
-        weather: WeatherApplication
+        weather: WeatherApplication,
+        server: ServerApplication
     }
     const results = [];
 
@@ -34,7 +38,7 @@ dotenv.config();
 
 const awtrix = new Awtrix(env.get('AWTRIX_IP').required().asString());
 const apps: BaseApplication[] = getApps();
-const jobs = [];
+const jobs: cron.CronJob[] = [];
 
 for (const app of apps) {
     await app.start();
@@ -55,9 +59,94 @@ for (const app of apps) {
     console.log(`Scheduled application: ${app.constructor.name} with interval "${app.interval}"`);
 }
 
-
-
 console.log('Applications are running. Press Ctrl+C to stop.');
+
+class CodeExecutor {
+    private rl: readline.Interface;
+    private context: any;
+
+    constructor() {
+        this.rl = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout
+        });
+
+        this.context = {
+            console,
+            setTimeout,
+            setInterval,
+            clearTimeout,
+            clearInterval,
+            Buffer,
+            Math,
+            JSON,
+            Date,
+            apps,
+            jobs,
+            awtrix,
+            require,
+            process
+        };
+
+        vm.createContext(this.context);
+    }
+
+    private executeCode(code: string): any {
+        try {
+            const script = new vm.Script(code);
+            const result = script.runInContext(this.context, {
+                timeout: 5000,
+                displayErrors: true
+            });
+            return result;
+        } catch (error: any) {
+            throw new Error(`Error: ${error.message}`);
+        }
+    }
+
+    private question(prompt: string): Promise<string> {
+        return new Promise((resolve) => {
+            this.rl.question(prompt, resolve);
+        });
+    }
+
+    // REPL
+    async startREPL(): Promise<void> {
+        console.log('JavaScript interactive shell started.');
+        console.log('Enter your code below. Type "exit" or "quit" to leave.');
+        console.log('----------------------------');
+
+        while (true) {
+            try {
+                const input = await this.question('>>> ');
+
+                if (input === 'exit' || input === 'quit') break;
+                if (!input.trim()) continue;
+
+                const result = this.executeCode(input);
+
+                if (result !== undefined) {
+                    console.log('Result:', result);
+                }
+
+            } catch (error: any) {
+                console.error('Error:', error.message);
+            }
+        }
+
+        this.close();
+    }
+
+    close(): void {
+        this.rl.close();
+        console.log('Goodbye!');
+    }
+}
+
+if (env.get('ENABLE_REPL').default('0').asBool()) {
+   while (true) await new CodeExecutor().startREPL();
+}
+
 await new Promise<void>((resolve) => {
     async function stop() {
         console.log('Stopping applications...');
