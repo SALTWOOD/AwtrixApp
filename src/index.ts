@@ -17,6 +17,7 @@ const jobs = [];
 
 for (const app of apps) {
     await app.start();
+    await app.tick();
     console.log(`Started application: ${app.constructor.name}`);
 }
 
