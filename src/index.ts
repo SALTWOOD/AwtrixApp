@@ -3,13 +3,7 @@ import { Awtrix } from './awtrix.js';
 import { BilibiliApplication } from './applications/bilibili.js';
 import { BaseApplication } from './applications/base.js';
 
-async function stop() {
-    console.log('Stopping applications...');
-    for (const app of apps) {
-        await app.stop();
-        console.log(`Stopped application: ${app.constructor.name}`);
-    }
-}
+
 
 const awtrix = new Awtrix('192.168.1.141');
 
@@ -32,7 +26,19 @@ for (const app of apps) {
     console.log(`Scheduled application: ${app.constructor.name} with interval "${app.interval}"`);
 }
 
-process.on('SIGINT', stop);
-process.on('SIGTERM', stop);
+
 
 console.log('Applications are running. Press Ctrl+C to stop.');
+await new Promise<void>((resolve) => {
+    async function stop() {
+        console.log('Stopping applications...');
+        for (const app of apps) {
+            await app.stop();
+            console.log(`Stopped application: ${app.constructor.name}`);
+        }
+        resolve();
+    }
+
+    process.on('SIGINT', stop);
+    process.on('SIGTERM', stop);
+});
