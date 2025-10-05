@@ -84,7 +84,6 @@ class CodeExecutor {
             apps,
             jobs,
             awtrix,
-            require,
             process
         };
 
