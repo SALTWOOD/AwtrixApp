@@ -142,11 +142,7 @@ class CodeExecutor {
     }
 }
 
-if (env.get('ENABLE_REPL').default('0').asBool()) {
-   while (true) await new CodeExecutor().startREPL();
-}
-
-await new Promise<void>((resolve) => {
+const promise = new Promise<void>((resolve) => {
     async function stop() {
         console.log('Stopping applications...');
         for (const app of apps) {
@@ -160,3 +156,9 @@ await new Promise<void>((resolve) => {
     process.on('SIGINT', stop);
     process.on('SIGTERM', stop);
 });
+
+if (env.get('ENABLE_REPL').default('0').asBool()) {
+   while (true) await new CodeExecutor().startREPL();
+}
+
+await promise;
