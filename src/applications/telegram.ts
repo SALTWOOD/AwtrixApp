@@ -70,6 +70,7 @@ export class TelegramApplication extends BaseApplication {
 
     async start(): Promise<void> {
         this.bot.start();
+        console.log('Telegram bot started');
     }
 
     async tick(): Promise<void> {
@@ -77,5 +78,6 @@ export class TelegramApplication extends BaseApplication {
 
     async stop(): Promise<void> {
         this.bot.stop();
+        console.log('Telegram bot stopped');
     }
 }
