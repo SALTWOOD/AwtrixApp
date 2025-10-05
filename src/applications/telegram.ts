@@ -79,7 +79,7 @@ export class TelegramApplication extends BaseApplication {
         const minute = now.getMinutes();
         const currentTotalMinutes = hour * 60 + minute;
 
-        for (const [[startHour], [startMinute], [endHour], [endMinute]] of this.openTime) {
+        for (const [[startHour, startMinute], [endHour, endMinute]] of this.openTime) {
             const startTotalMinutes = startHour * 60 + startMinute;
             const endTotalMinutes = endHour * 60 + endMinute;
 
