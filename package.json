@@ -1,0 +1,22 @@
+{
+  "name": "awtrix-app",
+  "version": "1.0.0",
+  "description": "Awtrix",
+  "license": "MIT",
+  "author": "SALTWOOD",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --enable-source-maps index.js",
+    "build": "rimraf dist && tsc"
+  },
+  "dependencies": {
+    "@tsconfig/node20": "^20.1.6",
+    "@types/node": "^24.6.2",
+    "cron": "^4.3.3",
+    "got": "^14.4.9",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.9.3"
+  }
+}
