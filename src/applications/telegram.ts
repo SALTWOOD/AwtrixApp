@@ -69,7 +69,7 @@ export class TelegramApplication extends BaseApplication {
 
 
     async start(): Promise<void> {
-        this.bot.start();
+        await this.bot.start();
         console.log('Telegram bot started');
     }
 
@@ -77,7 +77,7 @@ export class TelegramApplication extends BaseApplication {
     }
 
     async stop(): Promise<void> {
-        this.bot.stop();
+        await this.bot.stop();
         console.log('Telegram bot stopped');
     }
 }
