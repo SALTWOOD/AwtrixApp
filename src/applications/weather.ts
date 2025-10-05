@@ -21,7 +21,7 @@ class WeatherService {
         const url = `https://wis.qq.com/weather/common?key=${this.apiKey}&${params}`;
 
         try {
-            const response = await got<{ data?: { observe?: any; } }>(url);
+            const response = await got<{ data?: { observe?: any; } }>(url, { responseType: "json" });
             const data = response.body;
 
             if (!data || !data.data) {

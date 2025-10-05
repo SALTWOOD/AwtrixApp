@@ -1,7 +1,9 @@
-import { Awtrix, CustomAppData } from "./awtrix.js";
+import { Awtrix } from "./awtrix.js";
 import { BilibiliApplication } from "./applications/bilibili.js";
+import { WeatherApplication } from "./applications/weather.js";
+import { BitcoinApplication } from "./applications/bitcoin.js";
 
-const IP = "192.168.1.141";
+const IP = "192.168.0.245";
 
 const awtrix = new Awtrix(IP);
 
@@ -15,6 +17,18 @@ await awtrix.showText(
     5,
     "#00FF00"
 );
+
+// Test weather
+const weather = new WeatherApplication(awtrix, { location: '100000', secret: 'XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX' });
+await weather.start();
+await weather.tick();
+await weather.stop();
+
+// Test Bitcoin
+const bitcoin = new BitcoinApplication(awtrix, { target_currency: 'usd' });
+await bitcoin.start();
+await bitcoin.tick();
+await bitcoin.stop();
 
 // Test Bilibili
 const bilibili = new BilibiliApplication(awtrix, { uid: 2 });

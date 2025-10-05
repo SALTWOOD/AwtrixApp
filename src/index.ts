@@ -8,6 +8,7 @@ import { BaseApplication } from './applications/base.js';
 import { BilibiliApplication } from './applications/bilibili.js';
 import { BitcoinApplication } from './applications/bitcoin.js';
 import { WeatherApplication } from './applications/weather.js';
+import got from 'got';
 
 function getApps() {
     const dict = {
