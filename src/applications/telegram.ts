@@ -66,11 +66,20 @@ export class TelegramApplication extends BaseApplication {
             .command("alarm", async (ctx) => {
                 // Make the device ring
                 if (!this.isWithinOpenTime()) {
-                    return ctx.reply("Sorry, the alarm command is not available at this time.");
+                    return ctx.reply(`Sorry, the alarm command is not available at this time.\n${this.getOpenTimeText()}`);
                 }
                 await this.awtrix.playRtttl("ALARM:b=60:4c4.,8p.,4c4.,8p.,4c4.,8p.,4c4.,8p.,4c4.,8p.");
                 return await ctx.reply("Alarm triggered!");
             });
+    }
+
+    private getOpenTimeText(): string {
+        const parts = this.openTime.map(([[sh, sm], [eh, em]]) => {
+            const start = `${sh.toString().padStart(2, '0')}:${sm.toString().padStart(2, '0')}`;
+            const end = `${eh.toString().padStart(2, '0')}:${em.toString().padStart(2, '0')}`;
+            return `${start} - ${end}`;
+        });
+        return `The command can be used between the following times (${Intl.DateTimeFormat().resolvedOptions().timeZone}):\n${parts.join('\n')}`;
     }
 
     private isWithinOpenTime(): boolean {
