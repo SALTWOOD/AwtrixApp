@@ -1,18 +1,38 @@
-import cron from 'cron';
 import { Awtrix } from './awtrix.js';
-import { BilibiliApplication } from './applications/bilibili.js';
+
+import cron from 'cron';
+import env from 'env-var';
+import dotenv from 'dotenv';
+
 import { BaseApplication } from './applications/base.js';
+import { BilibiliApplication } from './applications/bilibili.js';
+import { BitcoinApplication } from './applications/bitcoin.js';
+import { WeatherApplication } from './applications/weather.js';
 
+function getApps() {
+    const dict = {
+        bilibili: BilibiliApplication,
+        bitcoin: BitcoinApplication,
+        weather: WeatherApplication
+    }
+    const results = [];
 
+    for (const [key, value] of Object.entries(dict)) {
+        const enabled: boolean = env.get(`APP_${key.toUpperCase()}_ENABLED`).default(0).asBool();
+        if (enabled) {
+            console.log(`Loading application: ${key}`);
+            const config = env.get(`APP_${key.toUpperCase()}_CONFIG`).default({}).asJsonObject();
+            results.push(new value(awtrix, config));
+        }
+    }
+
+    return results;
+}
+
+dotenv.config();
 
 const awtrix = new Awtrix('192.168.1.141');
-
-const apps: BaseApplication[] = [
-    new BilibiliApplication(awtrix, {
-        uid: 521343512
-    })
-];
-
+const apps: BaseApplication[] = getApps();
 const jobs = [];
 
 for (const app of apps) {
