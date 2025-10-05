@@ -62,7 +62,6 @@ export class WeatherApplication extends BaseApplication {
             county: locParts[2] || ''
         };
         const weatherData = await this.weatherService.getWeather(location);
-        console.log(weatherData);
         await this.awtrix.createCustomApp(
             "weather-temp",
             {
