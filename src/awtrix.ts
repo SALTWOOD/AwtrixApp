@@ -164,7 +164,7 @@ class Awtrix {
             return JSON.parse(response.body as any);
         } catch {
             // If parsing fails, return as string
-            return response.body;
+            return response.body as string;
         }
     }
 
