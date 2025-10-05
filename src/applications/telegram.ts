@@ -23,33 +23,36 @@ Make the device ring. This command has a cooldown of 10 minutes.`
 
 export class TelegramApplication extends BaseApplication {
     private bot: Bot;
+    private openTime: number[][][];
 
     constructor(awtrix: Awtrix, _data: any) {
         super(awtrix, _data);
         this.interval = _data.interval || '*/5 * * * * *';
+        this.openTime = _data.openTime || [[[0, 0], [23, 59]]]; // Always open by default
+
         this.bot = new Bot(_data.token, {
             api: _data.api || undefined
         });
 
         this.bot
             .command("start", (ctx) => ctx.reply(HELP_TEXT.start))
-            .command("help", (ctx) => {
+            .command("help", async (ctx) => {
                 const args = ctx.text?.split(' ') || [];
                 if (args.length < 2) {
-                    return ctx.reply(HELP_TEXT.start);
+                    return await ctx.reply(HELP_TEXT.start);
                 }
                 const command = args[1].toLowerCase();
                 if (command in HELP_TEXT) {
-                    return ctx.reply((HELP_TEXT as any)[command]);
+                    return await ctx.reply((HELP_TEXT as any)[command]);
                 } else {
-                    return ctx.reply(`Unknown command: ${command}`);
+                    return await ctx.reply(`Unknown command: ${command}`);
                 }
             })
             .command("ping", (ctx) => ctx.reply("Pong!"))
             .command("notify", async (ctx) => {
                 const args = ctx.text?.split(' ') || [];
                 if (args.length < 2) {
-                    return ctx.reply(HELP_TEXT.notify);
+                    return await ctx.reply(HELP_TEXT.notify);
                 }
                 const message = args.slice(1).join(' ');
                 // Send the notification to the Awtrix device
@@ -58,15 +61,34 @@ export class TelegramApplication extends BaseApplication {
                     color: "#FFFFFF",
                     icon: "telegram"
                 });
-                ctx.reply(`Notification sent: ${message}`);
+                await ctx.reply(`Notification sent: ${message}`);
             })
             .command("alarm", async (ctx) => {
                 // Make the device ring
+                if (!this.isWithinOpenTime()) {
+                    return ctx.reply("Sorry, the alarm command is not available at this time.");
+                }
                 await this.awtrix.playRtttl("ALARM:b=60:4c4.,8p.,4c4.,8p.,4c4.,8p.,4c4.,8p.,4c4.,8p.");
-                ctx.reply("Alarm triggered!");
+                return await ctx.reply("Alarm triggered!");
             });
     }
 
+    private isWithinOpenTime(): boolean {
+        const now = new Date();
+        const hour = now.getHours();
+        const minute = now.getMinutes();
+        const currentTotalMinutes = hour * 60 + minute;
+
+        for (const [[startHour], [startMinute], [endHour], [endMinute]] of this.openTime) {
+            const startTotalMinutes = startHour * 60 + startMinute;
+            const endTotalMinutes = endHour * 60 + endMinute;
+
+            if (currentTotalMinutes >= startTotalMinutes && currentTotalMinutes <= endTotalMinutes) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     async start(): Promise<void> {
         await this.bot.start();
