@@ -27,8 +27,8 @@ export class BitcoinApplication extends BaseApplication {
         await this.awtrix.createCustomApp(
             "bitcoin-price",
             {
-                text: `${rate} ${this.target_currency.toUpperCase()}`,
-                color: "#F7931A",
+                text: rate.toString(),
+                color: "#FEA500",
                 icon: "bitcoin"
             }
         );
