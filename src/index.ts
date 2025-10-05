@@ -9,8 +9,7 @@ const awtrix = new Awtrix('192.168.1.141');
 
 const apps: BaseApplication[] = [
     new BilibiliApplication(awtrix, {
-        uid: 521343512,
-        interval: 300
+        uid: 521343512
     })
 ];
 
