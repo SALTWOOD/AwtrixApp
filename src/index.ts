@@ -12,13 +12,15 @@ import { ServerApplication } from './applications/server.js';
 
 import * as readline from 'readline';
 import vm from 'vm';
+import { TelegramApplication } from './applications/telegram.js';
 
 function getApps() {
     const dict = {
         bilibili: BilibiliApplication,
         bitcoin: BitcoinApplication,
         weather: WeatherApplication,
-        server: ServerApplication
+        server: ServerApplication,
+        telegram: TelegramApplication
     }
     const results = [];
 
