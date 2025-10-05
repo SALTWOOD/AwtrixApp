@@ -59,7 +59,8 @@ export class TelegramApplication extends BaseApplication {
                 await this.awtrix.sendNotification({
                     text: message,
                     color: "#FFFFFF",
-                    icon: "telegram"
+                    icon: "telegram",
+                    repeat: 3
                 });
                 await ctx.reply(`Notification sent: ${message}`);
             })
