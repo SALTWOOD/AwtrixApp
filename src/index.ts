@@ -57,7 +57,7 @@ for (const app of apps) {
         cronTime: app.interval,
         onTick: async () => {
             await app.tick()
-            console.log(`Ticked application: ${app.constructor.name}`);
+            if (app.config && (app.config.logging ?? true)) console.log(`Ticked application: ${app.constructor.name}`);
         },
         start: true,
         timeZone: process.env.TZ || 'UTC'

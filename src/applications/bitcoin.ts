@@ -5,10 +5,10 @@ import { BaseApplication } from "./base.js";
 export class BitcoinApplication extends BaseApplication {
     target_currency: string;
 
-    constructor(awtrix: Awtrix, _data: any) {
-        super(awtrix, _data);
-        this.target_currency = _data.target_currency || 'usd';
-        this.interval = _data.interval || '*/5 * * * *';
+    constructor(awtrix: Awtrix, _config: any) {
+        super(awtrix, _config);
+        this.target_currency = _config.target_currency || 'usd';
+        this.interval = _config.interval || '*/5 * * * *';
     }
 
     async start(): Promise<void> { }

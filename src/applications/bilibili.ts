@@ -5,10 +5,10 @@ import { BaseApplication } from './base.js';
 export class BilibiliApplication extends BaseApplication {
     uid: number;
 
-    constructor(awtrix: Awtrix, _data: any) {
-        super(awtrix, _data);
-        this.uid = _data.uid;
-        this.interval = _data.interval || '*/5 * * * *';
+    constructor(awtrix: Awtrix, _config: any) {
+        super(awtrix, _config);
+        this.uid = _config.uid;
+        this.interval = _config.interval || '*/5 * * * *';
     }
 
     async start(): Promise<void> { }

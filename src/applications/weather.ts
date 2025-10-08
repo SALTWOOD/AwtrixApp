@@ -46,11 +46,11 @@ export class WeatherApplication extends BaseApplication {
     private weatherService: WeatherService;
     private location: string;
 
-    constructor(awtrix: Awtrix, _data: any) {
-        super(awtrix, _data);
-        this.weatherService = new WeatherService(_data.secret);
-        this.location = _data.location;
-        this.interval = _data.interval || '*/10 * * * *';
+    constructor(awtrix: Awtrix, _config: any) {
+        super(awtrix, _config);
+        this.weatherService = new WeatherService(_config.secret);
+        this.location = _config.location;
+        this.interval = _config.interval || '*/10 * * * *';
     }
 
     async start(): Promise<void> { }

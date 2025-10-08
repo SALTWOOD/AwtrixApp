@@ -3,9 +3,9 @@ import { BaseApplication } from "./base.js";
 import si from 'systeminformation';
 
 export class ServerApplication extends BaseApplication {
-    constructor(awtrix: Awtrix, _data: any) {
-        super(awtrix, _data);
-        this.interval = _data.interval || '*/5 * * * * *';
+    constructor(awtrix: Awtrix, _config: any) {
+        super(awtrix, _config);
+        this.interval = _config.interval || '*/5 * * * * *';
     }
 
     async start(): Promise<void> { }

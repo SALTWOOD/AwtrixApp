@@ -25,13 +25,13 @@ export class TelegramApplication extends BaseApplication {
     private bot: Bot;
     private openTime: number[][][];
 
-    constructor(awtrix: Awtrix, _data: any) {
-        super(awtrix, _data);
+    constructor(awtrix: Awtrix, _config: any) {
+        super(awtrix, _config);
         this.interval = null;
-        this.openTime = _data.openTime || [[[0, 0], [23, 59]]]; // Always open by default
+        this.openTime = _config.openTime || [[[0, 0], [23, 59]]]; // Always open by default
 
-        this.bot = new Bot(_data.token, {
-            api: _data.api || undefined
+        this.bot = new Bot(_config.token, {
+            api: _config.api || undefined
         });
 
         this.bot

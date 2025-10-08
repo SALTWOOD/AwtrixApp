@@ -3,10 +3,12 @@ import { Awtrix } from "../awtrix.js";
 export abstract class BaseApplication {
     protected awtrix: Awtrix;
     public interval: string | null; // crontab
+    public readonly config: any;
 
-    constructor(awtrix: Awtrix, _data: any) {
+    constructor(awtrix: Awtrix, _config: any) {
         this.awtrix = awtrix;
-        this.interval = _data.interval || '* * * * *';
+        this.config = _config;
+        this.interval = _config.interval || '* * * * *';
     }
     abstract start(): Promise<void>;
     abstract tick(): Promise<void>;
