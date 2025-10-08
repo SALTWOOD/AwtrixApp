@@ -49,6 +49,10 @@ for (const app of apps) {
 }
 
 for (const app of apps) {
+    if (!app.interval) {
+        // No interval, skip scheduling
+        continue;
+    }
     jobs.push(cron.CronJob.from({
         cronTime: app.interval,
         onTick: async () => {

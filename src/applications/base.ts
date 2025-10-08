@@ -2,7 +2,7 @@ import { Awtrix } from "../awtrix.js";
 
 export abstract class BaseApplication {
     protected awtrix: Awtrix;
-    public interval: string; // crontab
+    public interval: string | null; // crontab
 
     constructor(awtrix: Awtrix, _data: any) {
         this.awtrix = awtrix;

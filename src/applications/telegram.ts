@@ -27,7 +27,7 @@ export class TelegramApplication extends BaseApplication {
 
     constructor(awtrix: Awtrix, _data: any) {
         super(awtrix, _data);
-        this.interval = _data.interval || '*/5 * * * * *';
+        this.interval = null;
         this.openTime = _data.openTime || [[[0, 0], [23, 59]]]; // Always open by default
 
         this.bot = new Bot(_data.token, {
