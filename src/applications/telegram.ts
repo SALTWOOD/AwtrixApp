@@ -56,6 +56,7 @@ export class TelegramApplication extends BaseApplication {
                 }
                 const message = args.slice(1).join(' ');
                 // Send the notification to the Awtrix device
+                console.log(`Notification command received from user ${ctx.from?.username} (${ctx.from?.id})`);
                 await this.awtrix.sendNotification({
                     text: message,
                     color: "#FFFFFF",
@@ -69,6 +70,7 @@ export class TelegramApplication extends BaseApplication {
                 if (!this.isWithinOpenTime()) {
                     return ctx.reply(`Sorry, the alarm command is not available at this time.\n${this.getOpenTimeText()}`);
                 }
+                console.log(`Alarm command received from user ${ctx.from?.username} (${ctx.from?.id})`);
                 await this.awtrix.playRtttl("ALARM:b=60:4c4.,8p.,4c4.,8p.,4c4.,8p.,4c4.,8p.,4c4.,8p.");
                 return await ctx.reply("Alarm triggered!");
             });
