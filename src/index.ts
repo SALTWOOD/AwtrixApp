@@ -60,7 +60,7 @@ for (const app of apps) {
             if (app.config && (app.config.logging ?? true)) console.log(`Ticked application: ${app.constructor.name}`);
         },
         start: true,
-        timeZone: process.env.TZ || 'UTC'
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
     }));
     console.log(`Scheduled application: ${app.constructor.name} with interval "${app.interval}"`);
 }
