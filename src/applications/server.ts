@@ -1,6 +1,6 @@
 import { Awtrix } from "../awtrix.js";
 import { BaseApplication } from "./base.js";
-import si from 'systeminformation';
+import si, { mem } from 'systeminformation';
 
 export class ServerApplication extends BaseApplication {
     constructor(awtrix: Awtrix, _config: any) {
@@ -12,11 +12,12 @@ export class ServerApplication extends BaseApplication {
 
     async tick(): Promise<void> {
         const memory = await si.mem();
-        const memoryPercent = (memory.active * 100 / memory.total).toFixed(2);
+        let memoryPercent = (memory.active * 100 / memory.total);
+        let text = memoryPercent >= 99.995 ? '100' : Math.min(memoryPercent, 99.99).toFixed(2);
         await this.awtrix.createCustomApp(
             "server-cpu",
             {
-                text: `${memoryPercent}%`,
+                text: `${text}%`,
                 color: "#FFFFFF",
                 icon: "memory"
             }
