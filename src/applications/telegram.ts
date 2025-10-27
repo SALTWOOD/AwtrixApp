@@ -82,7 +82,7 @@ export class TelegramApplication extends BaseApplication {
             const end = `${eh.toString().padStart(2, '0')}:${em.toString().padStart(2, '0')}`;
             return `${start} - ${end}`;
         });
-        return `The command can be used between the following times (${Intl.DateTimeFormat().resolvedOptions().timeZone}):\n${parts.join('\n')}`;
+        return `The command can be used at the following times (${Intl.DateTimeFormat().resolvedOptions().timeZone}):\n${parts.join('\n')}`;
     }
 
     private isWithinOpenTime(): boolean {
