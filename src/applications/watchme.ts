@@ -13,7 +13,7 @@ export class WatchmeApplication extends BaseApplication {
         this.interval = _config.interval || '* * * * *';
         this.awtrixUrl = _config.awtrix_url;
         this.watchmeUrl = _config.watchme_url;
-        this.token = _config.watchme_token;
+        this.token = _config.token;
         this.watchme = got.extend({
             prefixUrl: this.watchmeUrl,
             hooks: {
