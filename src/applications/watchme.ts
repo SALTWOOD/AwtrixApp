@@ -16,13 +16,15 @@ export class WatchmeApplication extends BaseApplication {
         this.token = _config.watchme_token;
         this.watchme = got.extend({
             prefixUrl: this.watchmeUrl,
-            beforeRequest: [
-                (options: any) => {
-                    options.searchParams = {
-                        token: this.token
-                    };
-                }
-            ]
+            hooks: {
+                beforeRequest: [
+                    (options: any) => {
+                        options.searchParams = {
+                            token: this.token
+                        };
+                    }
+                ]
+            }
         });
     }
 
