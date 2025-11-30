@@ -13,6 +13,7 @@ import { ServerApplication } from './applications/server.js';
 import * as readline from 'readline';
 import vm from 'vm';
 import { TelegramApplication } from './applications/telegram.js';
+import { WatchmeApplication } from './applications/watchme.js';
 
 function getApps() {
     const dict = {
@@ -20,7 +21,8 @@ function getApps() {
         bitcoin: BitcoinApplication,
         weather: WeatherApplication,
         server: ServerApplication,
-        telegram: TelegramApplication
+        telegram: TelegramApplication,
+        watchme: WatchmeApplication
     }
     const results = [];
 
