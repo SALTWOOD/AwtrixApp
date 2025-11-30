@@ -15,16 +15,7 @@ export class WatchmeApplication extends BaseApplication {
         this.watchmeUrl = _config.watchme_url;
         this.token = _config.token;
         this.watchme = got.extend({
-            prefixUrl: this.watchmeUrl,
-            hooks: {
-                beforeRequest: [
-                    (options: any) => {
-                        options.searchParams = {
-                            token: this.token
-                        };
-                    }
-                ]
-            }
+            prefixUrl: this.watchmeUrl
         });
     }
 
@@ -39,7 +30,8 @@ export class WatchmeApplication extends BaseApplication {
             await this.watchme.post('api/v1/status', {
                 json: {
                     status: 0,
-                }
+                },
+                searchParams: { token: this.token }
             });
             return;
         }
@@ -50,12 +42,14 @@ export class WatchmeApplication extends BaseApplication {
         await this.watchme.post('api/v1/status', {
             json: {
                 status: isScreenOn ? 1 : 2,
-            }
+            },
+            searchParams: { token: this.token }
         });
         await this.watchme.post('api/v1/message', {
             json: {
                 message: `Environment brightness: ${lux}lux`,
-            }
+            },
+            searchParams: { token: this.token }
         });
     }
     async stop(): Promise<void> { }
