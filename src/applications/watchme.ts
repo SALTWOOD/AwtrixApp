@@ -36,7 +36,7 @@ export class WatchmeApplication extends BaseApplication {
 
         // Offline
         if (!response) {
-            await this.watchme.post('/api/v1/status', {
+            await this.watchme.post('api/v1/status', {
                 json: {
                     status: 0,
                 }
@@ -47,12 +47,12 @@ export class WatchmeApplication extends BaseApplication {
         const data = response.body;
         const isScreenOn = data.matrix;
         const lux = data.lux;
-        await this.watchme.post('/api/v1/status', {
+        await this.watchme.post('api/v1/status', {
             json: {
                 status: isScreenOn ? 1 : 2,
             }
         });
-        await this.watchme.post('/api/v1/message', {
+        await this.watchme.post('api/v1/message', {
             json: {
                 message: `Environment brightness: ${lux}lux`,
             }
