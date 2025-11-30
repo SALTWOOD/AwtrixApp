@@ -47,7 +47,7 @@ export class WatchmeApplication extends BaseApplication {
         });
         await this.watchme.post('api/v1/message', {
             json: {
-                message: `Environment brightness: ${lux} lux`,
+                message: `Brightness: ${lux} lux`,
             },
             searchParams: { token: this.token }
         });
